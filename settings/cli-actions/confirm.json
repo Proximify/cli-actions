@@ -1,0 +1,9 @@
+{
+    "method": "confirm",
+    "arguments": {
+        "status": {
+            "options": ["y", "n"],
+            "prompt": "Do you want to proceed?"
+        }
+    }
+}
