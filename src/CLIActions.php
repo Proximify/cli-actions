@@ -1,12 +1,9 @@
 <?php
 
 /**
- * File for class CLIActions.
- *
  * @author    Proximify Inc <support@proximify.com>
  * @copyright Copyright (c) 2020, Proximify Inc
  * @license   MIT
- * @version   1.1.0 CLIActions Library
  */
 
 namespace Proximify;
@@ -36,16 +33,16 @@ namespace Proximify;
  */
 class CLIActions
 {
-    /** @var string Special key for arguments. */
-    const ARGS_KEY = 'arguments';
-
     /** @var array<string> Names of all standard Composer actions. */
-    const COMPOSER_ACTIONS = [
+    public const COMPOSER_ACTIONS = [
         'install', 'update', 'status', 'archive', 'create-project', 'dump-autoload'
     ];
 
-    /** @var string Name of this package. */
-    const PACKAGE_NAME = 'cli-actions';
+    /** @var string Path to the folder with CLI action definitions. */
+    public const CLI_ACTIONS_DIR = 'settings/cli-actions';
+
+    /** @var string Special key for arguments. */
+    private const ARGS_KEY = 'arguments';
 
     /**
      * Magic method triggered when invoking inaccessible methods in a
@@ -119,12 +116,12 @@ class CLIActions
 
     /**
      * Get the absolute path to the folder with action definitions.
-     * 
+     *
      * The default is to return ROOT-DIR/settings/cli, where ROOT-DIR
-     * is assumed to be 2 levels up from the **called class** filename. 
-     * 
+     * is assumed to be 2 levels up from the **called class** filename.
+     *
      * Override this method if the default path is not appropriate.
-     * 
+     *
      * @return string Path to "settings" folders to visit.
      */
     public static function getActionFolder(): string
@@ -132,10 +129,10 @@ class CLIActions
         // dirname(__DIR__) would work for this class, but not for extended ones
         $refClass = new \ReflectionClass(get_called_class());
 
-        // Assuming root/src/filename, move 2 levels up... 
+        // Assuming root/src/filename, move 2 levels up...
         $rootDir = dirname($refClass->getFileName(), 2);
 
-        return "$rootDir/settings/" . self::PACKAGE_NAME;
+        return $rootDir . '/' . self::CLI_ACTIONS_DIR;
     }
 
     /**
@@ -209,7 +206,7 @@ class CLIActions
         if (!empty($cmd['askConfirm']) && !self::confirm()) {
             return;
         } elseif (is_a($class, self::class)) {
-            // Avoid accidental recursion by check that it's not an 'auto' 
+            // Avoid accidental recursion by check that it's not an 'auto'
             // method when the class is a CLIActions (self) class.
             if ($method == 'auto' || !method_exists($class, $method)) {
                 self::throwError("Invalid self method '$method'");
@@ -240,6 +237,45 @@ class CLIActions
         }
 
         return self::$action();
+    }
+
+    /**
+     * Throw an error message.
+     *
+     * @param string $msg The message to display.
+     * @param array $context Optional contextual data.
+     * @return void
+     */
+    protected static function throwError(string $msg, array $context = []): void
+    {
+        if ($context) {
+            $msg = "\n" . print_r($context, true);
+        }
+
+        $className = static::class;
+
+        throw new \Exception("$className:\n$msg");
+    }
+
+    /**
+     * Echo a message to the console.
+     *
+     * @param string $msg The message to echo.
+     * @param array $options Boolean options: separator and newline. If true,
+     * they are added to the output as a suffix.
+     * @return void
+     */
+    protected static function echoMsg(string $msg, array $options = []): void
+    {
+        if ($options['separator'] ?? false) {
+            $msg .= "\n" . str_repeat('-', min(80, strlen($msg)));
+        }
+
+        if ($options['newline'] ?? true) {
+            $msg .= "\n";
+        }
+
+        echo $msg;
     }
 
     /**
@@ -524,44 +560,5 @@ class CLIActions
         }
 
         return json_decode($data, true, 512, JSON_THROW_ON_ERROR);
-    }
-
-    /**
-     * Throw an error message.
-     *
-     * @param string $msg The message to display.
-     * @param array $context Optional contextual data.
-     * @return void
-     */
-    protected static function throwError(string $msg, array $context = []): void
-    {
-        if ($context) {
-            $msg = "\n" . print_r($context, true);
-        }
-
-        $className = static::class;
-
-        throw new \Exception("$className:\n$msg");
-    }
-
-    /**
-     * Echo a message to the console.
-     *
-     * @param string $msg The message to echo.
-     * @param array $options Boolean options: separator and newline. If true,
-     * they are added to the output as a suffix.
-     * @return void
-     */
-    protected static function echoMsg(string $msg, array $options = []): void
-    {
-        if ($options['separator'] ?? false) {
-            $msg .= "\n" . str_repeat('-', min(80, strlen($msg)));
-        }
-
-        if ($options['newline'] ?? true) {
-            $msg .= "\n";
-        }
-
-        echo $msg;
     }
 }
