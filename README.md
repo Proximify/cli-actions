@@ -211,6 +211,7 @@ In `settings/cli/post-create-project-cmd.json`
 Projects using **CLI Actions**.
 
 -   [Uniweb API](https://packagist.org/packages/proximify/uniweb-api): default behavior (without custom a CLI class).
+-   [Foreign Packages](https://packagist.org/packages/proximify/foreign-packages): definition of actions for standard composer events.
 -   [GLOT Builder](https://packagist.org/packages/proximify/glot-builder): defines a CLI class.
 -   [GLOT Publisher](https://packagist.org/packages/proximify/glot-publisher): defines two-levels of custom CLI classes.
 
