@@ -437,7 +437,7 @@ class CLIActions
 
         // As a fallback, consider a default settings folder
         // in current working directory of the called script
-        $dirs[] = getcwd() . '/settings/cli';
+        $dirs[] = getcwd() . '/' . self::CLI_ACTIONS_DIR;
 
         // Eliminate duplicate folders
         $dirs = array_unique($dirs);
