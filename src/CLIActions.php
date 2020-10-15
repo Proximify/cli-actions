@@ -146,7 +146,10 @@ class CLIActions
     public static function auto($event)
     {
         // Disable the Composer timeout when running in auto mode
-        if (class_exists('Composer\Config', false)) {
+        if (
+            class_exists('Composer\Config', false) &&
+            method_exists('Composer\Config', 'disableProcessTimeout')
+        ) {
             \Composer\Config::disableProcessTimeout();
         }
 
