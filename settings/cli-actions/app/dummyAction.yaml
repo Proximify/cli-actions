@@ -1,0 +1,15 @@
+{
+    'method': 'dummyTestAction',
+    'askConfirm': true,
+    'arguments':
+        {
+            'type':
+                {
+                    'options': ['a', 'b'],
+                    'prompt': 'What dummy type do you want?',
+                    'index': 0,
+                },
+            'name': { 'prompt': 'Name of the dummy type?' },
+            'verbose': { 'value': true },
+        },
+}

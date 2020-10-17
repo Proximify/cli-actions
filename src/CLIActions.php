@@ -8,6 +8,9 @@
 
 namespace Proximify;
 
+use Exception;
+use Symfony\Component\Yaml\Yaml as Yaml;
+
 /**
  * Interactive command-line interface (CLI) to manage Composer events and
  * regular CLI events.
@@ -85,9 +88,6 @@ class CLIActions
         // App namespaces map to settings sub-folders
         $action = str_replace(':', '/', $action);
 
-        // Get the definition of arguments for the given action
-        $cmd = self::readCommandSchema($action);
-
         // Load Compose parameters defined under the "extras" key of the
         // composer.json file.
         if ($event = $arguments[0] ?? false) {
@@ -99,15 +99,30 @@ class CLIActions
                 }
 
                 // Pass down the event as a special option
-                $options['_event'] = $event;
+                // $options['_event'] = $event;
 
-                // $composer = $event->getComposer();
-                // $options['_env'] = [
-                //     'event' => $event,
-                //     'vendor-dir' => $composer->getConfig()->get('vendor-dir'),
-                //     // 'extra' => $composer->getPackage()->getExtra(),
-                // ];
+                $composer = $event->getComposer();
+
+                // Pass down special environment info
+                $options['.env'] = [
+                    'event' => $event,
+                    'action' => $action,
+                    'vendor-dir' => $composer->getConfig()->get('vendor-dir'),
+                    'extra' => $composer->getPackage()->getExtra(),
+                ];
             }
+        }
+
+        // Get the definition of arguments for the given action
+        $cmd = self::readCommandSchema($action);
+
+        if ($cmd === null) {
+            if (!$event) {
+                self::throwError("Cannot find action config file for '$action'");
+            }
+
+            $cmd = ['method' => 'runComposerAction'];
+            // $options = $options['.env'];
         }
 
         // Run the action command with the given options
@@ -240,6 +255,20 @@ class CLIActions
         }
 
         return self::$action();
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param array $options
+     * @return void
+     */
+    public function runComposerAction(array $options): void
+    {
+        $env = $options['.env'] ?? [];
+        $env['event'] = null;
+
+        print_r($env);
     }
 
     /**
@@ -460,18 +489,19 @@ class CLIActions
      * Read the definition of commands arguments form the settings.
      *
      * @param string $cmdName The target command name.
-     * @return array A map of argument names to argument definitions.
+     * @return array|null A map of argument names to argument definitions.
      */
-    private static function readCommandSchema(string $cmdName): array
+    private static function readCommandSchema(string $cmdName): ?array
     {
-        $relPath = "$cmdName.json";
+        $relPath = "$cmdName.yaml";
         $filename = self::findSettingsFile($relPath);
 
         if (!$filename) {
-            self::throwError("Cannot find command file '$relPath'");
+            return null;
+            // self::throwError("Cannot find command file '$relPath'");
         }
 
-        $data = self::readJSONFile($filename);
+        $data = self::readConfigFile($filename);
 
         if (isset($data[self::ARGS_KEY])) {
             $args = &$data[self::ARGS_KEY];
@@ -510,8 +540,15 @@ class CLIActions
                 }
 
                 // Load a file with the nested specs if $value is an string
-                $args[$name]['options'][$key] = ($value && is_string($value)) ?
-                    self::readCommandSchema($value) : $value;
+                if ($value && is_string($value)) {
+                    $value = self::readCommandSchema($value);
+
+                    if ($value === null) {
+                        self::throwError("Cannot find command file '$relPath'");
+                    }
+                }
+
+                $args[$name]['options'][$key] = $value;
             }
         }
 
@@ -527,6 +564,10 @@ class CLIActions
     {
         $cmd = self::readCommandSchema('confirm');
         $options = [];
+
+        if ($cmd === null) {
+            self::throwError("Cannot confirm command");
+        }
 
         self::readInteractiveOptions($cmd, $options);
 
@@ -552,16 +593,34 @@ class CLIActions
      * Undocumented function
      *
      * @param string $filename
-     * @return mixed
+     * @return array
+     * @throws ParseException
      */
-    private static function readJSONFile(string $filename)
+    private static function readConfigFile(string $filename): array
     {
-        $data = file_get_contents($filename);
+        $data = Yaml::parseFile($filename);
 
-        if ($data === null) {
-            self::throwError("Cannot read file '$filename'");
+        if ($data && is_array(!$data)) {
+            throw new Exception("Invalid configuration data in '$filename'");
         }
 
-        return json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+        return $data ?: [];
     }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $filename
+     * @return mixed
+     */
+    // private static function readJSONFile(string $filename)
+    // {
+    //     $data = file_get_contents($filename);
+
+    //     if ($data === null) {
+    //         self::throwError("Cannot read file '$filename'");
+    //     }
+
+    //     return json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+    // }
 }

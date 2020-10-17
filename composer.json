@@ -16,9 +16,24 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "php": ">=7.1.0"
+        "php": ">=7.1.0",
+        "symfony/yaml": "^5.1"
     },
     "scripts": {
+        "post-root-package-install": "Proximify\\CLIActions::auto",
+        "post-create-project-cmd": "Proximify\\CLIActions::auto",
+        "pre-install-cmd": "Proximify\\CLIActions::auto",
+        "post-install-cmd": "Proximify\\CLIActions::auto",
+        "pre-status-cmd": "Proximify\\CLIActions::auto",
+        "post-status-cmd": "Proximify\\CLIActions::auto",
+        "pre-update-cmd": "Proximify\\CLIActions::auto",
+        "post-update-cmd": "Proximify\\CLIActions::auto",
+        "pre-package-install": "Proximify\\CLIActions::auto",
+        "post-package-install": "Proximify\\CLIActions::auto",
+        "pre-package-update": "Proximify\\CLIActions::auto",
+        "post-package-update": "Proximify\\CLIActions::auto",
+        "pre-package-uninstall": "Proximify\\CLIActions::auto",
+        "post-package-uninstall": "Proximify\\CLIActions::auto",
         "app:dummyAction": "Proximify\\CLIActions::auto"
     }
 }
