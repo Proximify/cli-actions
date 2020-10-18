@@ -36,6 +36,8 @@ use Symfony\Component\Yaml\Yaml as Yaml;
  */
 class CLIActions
 {
+    public const ENV_OPTIONS = '.env';
+
     /** @var array<string> Names of all standard Composer actions. */
     public const COMPOSER_ACTIONS = [
         'install', 'update', 'status', 'archive', 'create-project', 'dump-autoload'
@@ -88,30 +90,27 @@ class CLIActions
         // App namespaces map to settings sub-folders
         $action = str_replace(':', '/', $action);
 
+        // Collect environment variables of the action event.
+        $env = [
+            'action' => $action
+        ];
+
         // Load Compose parameters defined under the "extras" key of the
         // composer.json file.
         if ($event = $arguments[0] ?? false) {
             if (is_a($event, 'Composer\\Script\\Event', false)) {
-                $extra = $event->getComposer()->getPackage()->getExtra();
-
-                if (is_array($extra)) {
-                    $options = $extra + $options;
-                }
-
-                // Pass down the event as a special option
-                // $options['_event'] = $event;
-
                 $composer = $event->getComposer();
 
-                // Pass down special environment info
-                $options['.env'] = [
+                $env += [
                     'event' => $event,
-                    'action' => $action,
-                    'vendor-dir' => $composer->getConfig()->get('vendor-dir'),
                     'extra' => $composer->getPackage()->getExtra(),
+                    'vendor-dir' => $composer->getConfig()->get('vendor-dir')
                 ];
             }
         }
+
+        // Add a special "hidden" ENV property to the options
+        $options[self::ENV_OPTIONS] = $env;
 
         // Get the definition of arguments for the given action
         $cmd = self::readCommandSchema($action);
@@ -122,7 +121,6 @@ class CLIActions
             }
 
             $cmd = ['method' => 'runComposerAction'];
-            // $options = $options['.env'];
         }
 
         // Run the action command with the given options
@@ -258,14 +256,14 @@ class CLIActions
     }
 
     /**
-     * Undocumented function
+     * Run a standard Composer action script.
      *
      * @param array $options
      * @return void
      */
     public function runComposerAction(array $options): void
     {
-        $env = $options['.env'] ?? [];
+        $env = $options[self::ENV_OPTIONS];
         $env['event'] = null;
 
         print_r($env);
