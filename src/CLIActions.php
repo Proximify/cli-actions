@@ -38,6 +38,24 @@ class CLIActions
 {
     public const ENV_OPTIONS = '.env';
 
+    /** @var array<string> Names of all standard Composer event names. */
+    public const COMPOSER_EVENT_NAMES = [
+        'post-root-package-install',
+        'post-create-project-cmd',
+        'pre-install-cmd',
+        'post-install-cmd',
+        'pre-status-cmd',
+        'post-status-cmd',
+        'pre-update-cmd',
+        'post-update-cmd',
+        'pre-package-install',
+        'post-package-install',
+        'pre-package-update',
+        'post-package-update',
+        'pre-package-uninstall',
+        'post-package-uninstall'
+    ];
+
     /** @var array<string> Names of all standard Composer actions. */
     public const COMPOSER_ACTIONS = [
         'install', 'update', 'status', 'archive', 'create-project', 'dump-autoload'
@@ -72,13 +90,28 @@ class CLIActions
      */
     public static function __callStatic(string $name, array $arguments)
     {
-        // Get command-line options. Works with and without Composer.
-        [$action, $options] = self::getopt();
+        $isStdEvent = in_array($name, self::COMPOSER_EVENT_NAMES);
+
+        // Determine if the script was called by composer by checking if the
+        // first argument is a composer event.
+        // NOTE: Some composer scripts don't define an event, like pre-package-update
+        if (is_a($arguments[0] ?? null, 'Composer\\Script\\Event', false)) {
+            $event = $arguments[0];
+            $composer = $event->getComposer();
+            $action = $event->getName();
+            $options = $event->getArguments();
+        } else {
+            $event = null;
+            $composer = null;
+            // Get command-line options. Works with and without Composer.
+            [$action, $options] = self::getopt();
+        }
 
         // Check that the method called and the CLI action match.
         // Method names treat ':' as '-' so action A:B a calls method A-B.
         if (str_replace(':', '-', $action) != $name) {
-            if (in_array($action, self::COMPOSER_ACTIONS)) {
+            if ($isStdEvent) {
+                //in_array($action, self::COMPOSER_ACTIONS)
                 $action = $name;
             } else {
                 // Unexpected type of missing method. Bail out.
@@ -92,21 +125,16 @@ class CLIActions
 
         // Collect environment variables of the action event.
         $env = [
-            'action' => $action
+            'action' => $action,
+            'name' => $name
         ];
 
-        // Load Compose parameters defined under the "extras" key of the
-        // composer.json file.
-        if ($event = $arguments[0] ?? false) {
-            if (is_a($event, 'Composer\\Script\\Event', false)) {
-                $composer = $event->getComposer();
-
-                $env += [
-                    'event' => $event,
-                    'extra' => $composer->getPackage()->getExtra(),
-                    'vendor-dir' => $composer->getConfig()->get('vendor-dir')
-                ];
-            }
+        if ($event) {
+            $env += [
+                'event' => $event,
+                'extra' => $composer->getPackage()->getExtra(),
+                'vendor-dir' => $composer->getConfig()->get('vendor-dir')
+            ];
         }
 
         // Add a special "hidden" ENV property to the options
@@ -116,7 +144,7 @@ class CLIActions
         $cmd = self::readCommandSchema($action);
 
         if ($cmd === null) {
-            if (!$event) {
+            if (!$isStdEvent) {
                 self::throwError("Cannot find action config file for '$action'");
             }
 
