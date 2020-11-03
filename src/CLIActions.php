@@ -469,9 +469,30 @@ class CLIActions
 
                 if (isset($options[$value]) && is_array($options[$value])) {
                     self::readInteractiveOptions($options[$value], $params);
+                } elseif (!empty($info['method']) && class_exists($value)) {
+                    //append custom options declared from the component itself
+                    $class = new $value();
+                    $method = $info['method'];
+
+                    $methodParams = $info['params'] ?? [];
+                    $methodParams['folder'] = self::getClassDir($value);
+
+                    if (method_exists($class, $method)) {
+                        self::readInteractiveOptions(
+                            $class->$method($methodParams),
+                            $params
+                        );
+                    }
                 }
             }
         }
+    }
+
+    static function getClassDir(string $class): string
+    {
+        $reflector = new \ReflectionClass($class);
+
+        return dirname($reflector->getFileName()) . '/';
     }
 
     /**
