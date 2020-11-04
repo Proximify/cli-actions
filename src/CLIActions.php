@@ -36,8 +36,6 @@ use Symfony\Component\Yaml\Yaml as Yaml;
  */
 class CLIActions
 {
-    public const ENV_OPTIONS = '.env';
-
     /** @var array<string> Names of all standard Composer event names. */
     public const COMPOSER_EVENT_NAMES = [
         'post-root-package-install',
@@ -62,7 +60,7 @@ class CLIActions
     ];
 
     /** @var string Path to the folder with CLI action definitions. */
-    public const CLI_ACTIONS_DIR = 'settings/cli-actions';
+    public const CLI_ACTIONS_DIR = 'config/cli-actions';
 
     /** @var string Special key for arguments. */
     private const ARGS_KEY = 'arguments';
@@ -137,9 +135,6 @@ class CLIActions
             ];
         }
 
-        // Add a special "hidden" ENV property to the options
-        $options[self::ENV_OPTIONS] = $env;
-
         // Get the definition of arguments for the given action
         $cmd = self::readCommandSchema($action);
 
@@ -152,7 +147,7 @@ class CLIActions
         }
 
         // Run the action command with the given options
-        return self::runCommand($cmd, $options);
+        return self::runCommand($cmd, $options, $env);
     }
 
     /**
@@ -220,9 +215,10 @@ class CLIActions
      *
      * @param array $cmd
      * @param array $options
+     * @param array $env
      * @return mixed
      */
-    public static function runCommand(array $cmd, array $options)
+    public static function runCommand(array $cmd, array $options, array $env)
     {
         // Complete missing options with default values and with
         // values provided by the user interactively.
@@ -261,8 +257,17 @@ class CLIActions
 
         $isStatic = (new \ReflectionMethod($class, $method))->isStatic();
 
-        return $isStatic ?
-            $class::$method($options) : (new $class())->$method($options);
+        if ($isStatic) {
+            $output = $class::$method($options, $env);
+        } else {
+            $output = (new $class())->$method($options, $env);
+        }
+
+        if ($cmd['echo'] ?? false) {
+            print_r($output);
+        }
+
+        return $output;
     }
 
     /**
@@ -287,11 +292,11 @@ class CLIActions
      * Run a standard Composer action script.
      *
      * @param array $options
+     * @param array $env
      * @return void
      */
-    public function runComposerAction(array $options): void
+    public function runComposerAction(array $options, array $env): void
     {
-        $env = $options[self::ENV_OPTIONS];
         $env['event'] = null;
 
         print_r($env);
@@ -637,7 +642,7 @@ class CLIActions
     }
 
     /**
-     * Undocumented function
+     * Read the contents of YAML file. 
      *
      * @param string $filename
      * @return array
@@ -653,21 +658,4 @@ class CLIActions
 
         return $data ?: [];
     }
-
-    /**
-     * Undocumented function
-     *
-     * @param string $filename
-     * @return mixed
-     */
-    // private static function readJSONFile(string $filename)
-    // {
-    //     $data = file_get_contents($filename);
-
-    //     if ($data === null) {
-    //         self::throwError("Cannot read file '$filename'");
-    //     }
-
-    //     return json_decode($data, true, 512, JSON_THROW_ON_ERROR);
-    // }
 }
