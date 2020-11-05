@@ -93,11 +93,12 @@ class CLIActions
         // Determine if the script was called by composer by checking if the
         // first argument is a composer event.
         // NOTE: Some composer scripts don't define an event, like pre-package-update
+
         if (is_a($arguments[0] ?? null, 'Composer\\Script\\Event', false)) {
             $event = $arguments[0];
             $composer = $event->getComposer();
             $action = $event->getName();
-            $options = $event->getArguments();
+            $options = self::parseOpt($event->getArguments());
         } else {
             $event = null;
             $composer = null;
@@ -344,6 +345,7 @@ class CLIActions
     /**
      * Get the current options set from the command line.
      *
+     * @param array|null $args
      * @return array
      */
     private static function getopt(): array
@@ -351,6 +353,14 @@ class CLIActions
         $args = $_SERVER['argv'] ?? [];
         $cmd = $args ? array_shift($args) : '';
         $action = $args ? array_shift($args) : '';
+
+        $options = self::parseOpt($args);
+
+        return [$action, $options];
+    }
+
+    private static function parseOpt(array $args): array
+    {
         $options = [];
 
         foreach ($args as $index => $arg) {
@@ -364,7 +374,7 @@ class CLIActions
             }
         }
 
-        return [$action, $options];
+        return $options;
     }
 
     /**
