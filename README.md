@@ -45,16 +45,32 @@ The actions and their parameters are defined in JSON files. By default, the file
 ```
 MyProject
 ├── settings
-│   └── cli
+│   └── cli-actions
 │       ├── action1.json
 │       ├── action1
 │       │   └── sub-action1.json
-│       └── action2.json
+│       └── namespaceA
+│           ├── action-1.json
+│           └── action-2.json
 ├── src
 │   ├── helpers.php
 │   └── MyProjectCLI.php
 └── composer.json
 ```
+
+### Action definition object
+
+-   `class` **String** - The class name
+-   `method` **String** - Action callback method. The method should be declared in the given class.
+-   `askConfirm` **Boolean** - Whether to ask the user for confirmation to proceed the action.
+-   `commandKey` **String** - Proceed the action based on the argument which is declared in the `commandKey`.
+-   `arguments` **Object** - Mandatory arguments to proceed the action. The key of each argument item is the **name** of the argument and the value is an object that collects the information of the argument. The valid options of the argument are as below:
+    -   `prompt` **String** - Prompting message. The prompter checks what arguments were given in the CLI and only prompts the user for the missing ones. The prompting message instructs users to input the value.
+    -   `selectByIndex` **Boolean** - Enable the way to let users input the number to select the option.
+    -   `displayType` **String** - Enum of **array** and **list**. The way to preset the prompt message.
+    -   `options` **Array** - The options property can be an array of strings. Users can select the value from the given options. It can also be an **option definition object** with Key/Value pairs representing a map from a sub-action name to a nested sub-action defined inline or in another file:
+        -   **inline** - An object with a nested [action definition](#action-definition-object);
+        -   **external** - The boolean **true** is interpreted as a nested sub-action defined in another file located at **config/cli-actions/MAIN-ACTION/SUB-ACTION/.../SUB-ACTION**.
 
 ### Example action definition
 

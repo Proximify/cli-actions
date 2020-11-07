@@ -11,10 +11,6 @@
         "method": {
             "type": "string",
             "description": "The name of the method to run for the action."
-        },
-        "isStatic": {
-            "type": "boolean",
-            "description": "Whether the method to run is static or not."
         }
     }
 }
