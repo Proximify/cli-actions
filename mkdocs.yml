@@ -1,0 +1,4 @@
+site_name: cli-actions
+repo_url: https://github.com/Proximify/cli-actions.git
+theme:
+  name: material
