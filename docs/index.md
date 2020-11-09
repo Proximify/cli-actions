@@ -266,10 +266,6 @@ In addition to action definitions provided via JSON files, it is possible to def
 
 The existence of the public method `methodName` is checked first and, only if it doesn't exist, a JSON action file is evaluated.
 
-<!-- #### Validating VSCode action definitions
-
-A Visual Studio Code schema is provided in `schemas/cli-actions.json` and declared in `.vscode/settings.json`. -->
-
 ### Standard Composer Events
 
 Composer dispatches several [named events](https://getcomposer.org/doc/articles/scripts.md#event-names) during its execution process. All callbacks for all those events can be defined in by JSON action files named as the event the represent.
