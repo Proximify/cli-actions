@@ -72,6 +72,7 @@ class CLIActions
      * If triggered by composer, the first argument will be an Event.
      *
      * @link https://github.com/composer/composer/tree/master/src/Composer
+     * @link https://github.com/composer/composer/tree/master/src/Composer/Installer
      *
      * $event = $arguments[0] ?? null;
      *
@@ -92,16 +93,20 @@ class CLIActions
 
         // Determine if the script was called by composer by checking if the
         // first argument is a composer event.
-        // NOTE: Some composer scripts don't define an event, like pre-package-update
+        $arg0 = $arguments[0] ?? null;
+        $isRoot = is_a($arg0, 'Composer\\Script\\Event', false);
+        $isPkg = !$isRoot && is_a($arg0, 'Composer\\Installer\\PackageEvent', false);
 
-        if (is_a($arguments[0] ?? null, 'Composer\\Script\\Event', false)) {
+        if ($isRoot || $isPkg) {
             $event = $arguments[0];
             $composer = $event->getComposer();
             $action = $event->getName();
             $options = self::parseOpt($event->getArguments());
+            $type = $isRoot ? 'root' : 'package';
         } else {
             $event = null;
             $composer = null;
+            $type = null;
             // Get command-line options. Works with and without Composer.
             [$action, $options] = self::getopt();
         }
@@ -125,7 +130,8 @@ class CLIActions
         // Collect environment variables of the action event.
         $env = [
             'action' => $action,
-            'name' => $name
+            'name' => $name,
+            'type' => $type
         ];
 
         if ($event) {
