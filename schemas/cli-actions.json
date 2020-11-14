@@ -1,0 +1,16 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "CLI Actions schema",
+    "description": "Definition of a CLI action.",
+    "type": "object",
+    "properties": {
+        "class": {
+            "type": "string",
+            "description": "The fully qualified name of the class that has the method to run for the action."
+        },
+        "method": {
+            "type": "string",
+            "description": "The name of the method to run for the action."
+        }
+    }
+}

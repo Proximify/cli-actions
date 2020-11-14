@@ -1,0 +1,762 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="shortcut icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.4">
+    
+    
+      
+        <title>cli-actions</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.358818c7.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.f0267088.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cli-actions" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="." title="cli-actions" class="md-header-nav__button md-logo" aria-label="cli-actions">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            cli-actions
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              CLI Actions
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/Proximify/cli-actions.git/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="cli-actions" class="md-nav__button md-logo" aria-label="cli-actions">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    cli-actions
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/Proximify/cli-actions.git/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        CLI Actions
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="." class="md-nav__link md-nav__link--active">
+      CLI Actions
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objective" class="md-nav__link">
+    Objective
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    Getting started
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting started">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#action-definition-object" class="md-nav__link">
+    Action definition object
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-definition" class="md-nav__link">
+    Option definition
+  </a>
+  
+    <nav class="md-nav" aria-label="Option definition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#additional-properties" class="md-nav__link">
+    Additional Properties
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-action-definition" class="md-nav__link">
+    Example action definition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-cli-for-your-composer-packages" class="md-nav__link">
+    Creating a CLI for your Composer packages
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating a CLI for your Composer packages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#action-namespaces" class="md-nav__link">
+    Action namespaces
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-composer-event-object" class="md-nav__link">
+    The Composer event object
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-stored-extra-arguments" class="md-nav__link">
+    Pre-stored extra arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-methods" class="md-nav__link">
+    Action methods
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standard-composer-events" class="md-nav__link">
+    Standard Composer Events
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-projects" class="md-nav__link">
+    Example projects
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objective" class="md-nav__link">
+    Objective
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    Getting started
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting started">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#action-definition-object" class="md-nav__link">
+    Action definition object
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-definition" class="md-nav__link">
+    Option definition
+  </a>
+  
+    <nav class="md-nav" aria-label="Option definition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#additional-properties" class="md-nav__link">
+    Additional Properties
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-action-definition" class="md-nav__link">
+    Example action definition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-cli-for-your-composer-packages" class="md-nav__link">
+    Creating a CLI for your Composer packages
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating a CLI for your Composer packages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#action-namespaces" class="md-nav__link">
+    Action namespaces
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-composer-event-object" class="md-nav__link">
+    The Composer event object
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-stored-extra-arguments" class="md-nav__link">
+    Pre-stored extra arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-methods" class="md-nav__link">
+    Action methods
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standard-composer-events" class="md-nav__link">
+    Standard Composer Events
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-projects" class="md-nav__link">
+    Example projects
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/Proximify/cli-actions.git/edit/master/docs/index.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="cli-actions">CLI Actions</h1>
+<p>Command-line interface (CLI) with custom actions and interactive prompts (e.g. composer app:action argument).</p>
+<h2 id="objective">Objective</h2>
+<p>The standard <code>composer.json</code> file allows for the declaration of CLI scripts. The scripts can then be called from the terminal. For example,</p>
+<pre><code class="language-bash">$ composer action-name arg1 arg2 ...
+</code></pre>
+<p>calls the static method <code>action-name</code> of a PHP script registered in the <code>composer.json</code>.</p>
+<p>The procedure to declare the custom <a href="https://getcomposer.org/doc/articles/scripts.md">Composer scripts</a> is simple but a bit repetitive. <strong>CLI Actions</strong> simplifies that process and adds functionality to create rich interactive CLI behaviors that are defined in JSON setting files.</p>
+<h2 id="getting-started">Getting started</h2>
+<p>Add the <strong>CLI Actions</strong> to your project.</p>
+<pre><code class="language-bash">$ composer require proximify/cli-actions
+</code></pre>
+<p>Then, add the scripts that you want to enable from the CLI.</p>
+<p>In your project's <code>composer.json</code>, add</p>
+<pre><code class="language-json">&quot;scripts&quot;: {
+     &quot;ACTION-NAME-1&quot;: &quot;Proximify\\CLIActions::auto&quot;,
+     &quot;ACTION-NAME-2&quot;: &quot;Proximify\\CLIActions::auto&quot;,
+     &quot;...&quot;: &quot;...&quot;
+ }
+</code></pre>
+<p>All actions can map to the same "auto" method of <strong>CLI Actions</strong>. That is one way in which <strong>CLI Actions</strong> simplifies the declaration of custom scripts.</p>
+<p>The next step is to define what script to run and with what parameters. The arguments to a script can also be provided via the CLI and/or by prompting the user for them. The prompter checks what arguments were given in the CLI and only prompts the user for the missing ones.</p>
+<p>The <strong>action definitions</strong> are JSON files that define the prompts for each argument and the acceptable values for them. In addition, the arguments can require sub-arguments based on the options selected for them. <strong>CLI Actions</strong> allows for nested definitions of arguments and sub-arguments.</p>
+<p>The actions and their parameters are defined in JSON files. By default, the files in a root-level <code>settings/cli</code> folder are considered. The name of the file must match the name of the action. Each file defines a possible CLI action and their arguments.</p>
+<pre><code>MyProject
+├── settings
+│   └── cli-actions
+│       ├── action1.json
+│       ├── action1
+│       │   └── sub-action1.json
+│       └── namespaceA
+│           ├── action-1.json
+│           └── action-2.json
+├── src
+│   ├── helpers.php
+│   └── MyProjectCLI.php
+└── composer.json
+</code></pre>
+<h3 id="action-definition-object">Action definition object</h3>
+<ul>
+<li><code>class</code> <strong>String</strong> - An optional, fully qualified, class name. If not given, the method is assumed to belong to the calling (\$this) object.</li>
+<li><code>method</code> <strong>String</strong> - A callback method of the selected class that will be called to execute the action. The method can be static or dynamic. The method recieves an array with all user options and an array with environment options <code>method-name(array $options, array $env)</code>. A ReflectionMethod is used to determine how to call the method of the given class. If the method is dynamic, an object of the class is created by invoking its constructor with no arguments.</li>
+<li><code>askConfirm</code> <strong>Boolean</strong> - Whether to ask the user for confirmation to execute the action.</li>
+<li><code>value</code> <strong>String</strong> - An optional "default" value to assume of the argument is not given. When a default value is defined, the user is not prompted for the value if the argument is not given in the CLI.</li>
+<li>Proceed the action based on the argument which is declared in the <code>commandKey</code>.</li>
+<li><code>arguments</code> <strong>Object</strong> - KEY/VALUE pairs with the definition of all the arguments needed to execute the action. The key of each argument item is the <strong>name</strong> of the argument and the value is an object that collects the information of the argument. The valid options of the argument are as below:<ul>
+<li><code>prompt</code> <strong>String</strong> - A message requesting a value for the argument. It is shown to the user iteratively when an argument value is not already present from the CLI options provided by the user. That is, the prompter checks what arguments were given in the CLI and only prompts the user for the missing ones. The message instructs the user to input the value.</li>
+<li><code>index</code> <strong>Integer</strong> - An optional <strong>CLI position</strong> for the argument. It is the absolute position with respect to all the unnamed arguments given in the CLI (starting from 0). If given, it means that the argument can be specified by name or position. If not given, the argument can only be specified by name.</li>
+<li><code>displayType</code> <strong>String</strong> - Enum of <strong>array</strong> and <strong>list</strong>. The way to preset the prompt message.</li>
+<li><code>options</code> <strong>Array</strong> - An array of strings or of <a href="#Option-definition">option definitions</a>. A user can select the value from the given options.</li>
+<li><code>selectByIndex</code> <strong>Boolean</strong> - Wether to allow the user to input the index of an option instead of its value in order to select an option when prompted for it.</li>
+</ul>
+</li>
+<li><code>commandKey</code> <strong>String</strong> - Optional <strong>argument name</strong> in <code>arguments</code>. It is an advanced behavior use to defined the <code>class</code> and <code>method</code> of the action based on a user-selected option from the given argument. For example, the action <code>create</code> might have a <code>type</code> arguments with options <code>widget</code> and <code>plugin</code>. The class and method used by create depend on whether the user wants to create a widget or a plugin. In this case, <code>commandKey=type</code> says that the class and method definition are to be read from the sub-action defined by <code>widget</code> or <code>plugin</code> once the user selection is known.</li>
+</ul>
+<h3 id="option-definition">Option definition</h3>
+<p>The options of an <strong>action argument</strong> can be can defined in terms of an <strong>option definition object</strong> with Key/Value pairs representing a map from a sub-action name to a nested sub-action defined inline or in another file:</p>
+<ol>
+<li><strong>Inline</strong> - An object with a nested <a href="#action-definition-object">action definition</a>;</li>
+<li><strong>External</strong> - The boolean <strong>true</strong> is interpreted as a nested sub-action defined in another file located at <strong>config/cli-actions/MAIN-ACTION/SUB-ACTION/.../SUB-ACTION</strong>.</li>
+</ol>
+<h4 id="additional-properties">Additional Properties</h4>
+<p>In addition to <a href="#action-definition-object">action definition</a> properties, an <strong>option definition</strong> allows for the following properties:</p>
+<ul>
+<li><code>label</code> <strong>String</strong> - The displayed name of the option used when prompting the user for a selection.</li>
+</ul>
+<h3 id="example-action-definition">Example action definition</h3>
+<pre><code class="language-yml">{
+    'class': 'Proximify\\Glot\\Builder\\BuilderCLI',
+    'method': 'create',
+    'commandKey': 'type',
+    'askConfirm': true,
+    'arguments':
+        {
+            'type':
+                {
+                    'options':
+                        {
+                            'host': true,
+                            'widget': true,
+                            'plugin': true,
+                            'streamer': true,
+                            'provider': true,
+                            'dataSource': true,
+                        },
+                    'prompt': 'Type of component to create?',
+                    'index': 0,
+                },
+            'name': { 'prompt': 'Name of the component?' },
+            'verbose': { 'value': true },
+        },
+}
+</code></pre>
+<pre><code class="language-yml">class: Proximify\Glot\Builder\BuilderCLI
+method: delete
+commandKey: type
+askConfirm: true
+arguments:
+    type:
+        options:
+            host:
+                class: Proximify\Glot\Publisher\Publisher
+                method: deleteHost
+                arguments:
+                    label:
+                        Delete a host will delete the host folder in you project, delete
+                        the related remote in rclone and delete the bucket in the host.
+            widget:
+                label: Delete the widget.
+            plugin:
+                label: Delete the plugin
+            streamer:
+                label: Delete the streamer
+            provider:
+                label: Delete the provider
+        prompt: Type of component to delete?
+        index: 0
+    name:
+        prompt: Name of the component?
+</code></pre>
+<pre><code class="language-json">{
+    &quot;class&quot;: &quot;SOME-NAMESPACE\\SOME-CLASS-NAME&quot;,
+    &quot;method&quot;: &quot;SOME-METHOD-NAME&quot;,
+    &quot;askConfirm&quot;: true,
+    &quot;arguments&quot;: {
+        &quot;type&quot;: {
+            &quot;options&quot;: [&quot;a&quot;, &quot;b&quot;],
+            &quot;prompt&quot;: &quot;What dummy type do you want?&quot;,
+            &quot;index&quot;: 0
+        },
+        &quot;name&quot;: {
+            &quot;prompt&quot;: &quot;Name of the dummy type?&quot;
+        },
+        &quot;verbose&quot;: {
+            &quot;value&quot;: true
+        }
+    }
+}
+</code></pre>
+<!-- ### Action schema
+
+There is a [schema for action definitions](docs/action_schema.md) that explains all valid options. -->
+
+<h3 id="creating-a-cli-for-your-composer-packages">Creating a CLI for your Composer packages</h3>
+<p>Let's say you have a compose package named Publisher and you want to create a CLI for it. To do that, you have to create a class that extends the CLIActions. Let's call it, PublisherCLI. The only task of that class is to define the folders where the actions definitions are located.</p>
+<pre><code class="language-php">namespace XYZ;
+
+class PublisherCLI extends \Proximify\CLIActions
+{
+    static public function getActionFolder(): string
+    {
+        // E.g. own settings folder, one level up from __DIR__
+        return dirname(__DIR__) . '/settings/cli';
+    }
+}
+</code></pre>
+<p>That's it!</p>
+<blockquote>
+<p>The action folder of ancestor classes are added recursively. That is, if the example PublisherCLI class extends another class that also has CLI actions, both paths return will be considered when searching for actions. Child paths are considered before parent paths.</p>
+</blockquote>
+<p>In your project's <code>composer.json</code> use your own CLI class</p>
+<pre><code class="language-json">&quot;scripts&quot;: {
+     &quot;ACTION-NAME-1&quot;: &quot;XYZ\\PublisherCLI::auto&quot;,
+     &quot;ACTION-NAME-2&quot;: &quot;XYZ\\PublisherCLI::auto&quot;,
+     &quot;...&quot;: &quot;...&quot;
+ }
+</code></pre>
+<p>By using your class, you will be adding your own action definitions and that of the ancestor classes of your class.</p>
+<h4 id="action-namespaces">Action namespaces</h4>
+<p>It is recommended to use namespaces when defining actions. In the command line, an action namespace is given in the form A:B, where A is the namespace and B is the action name. The namespaces are evaluated as sub-folders. For example, if the command is</p>
+<pre><code class="language-bash">$ composer app:update
+</code></pre>
+<p>CLI Actions will try to load a settings file named <code>update.json</code> in a parent folder named <code>app</code>. By default, that would be the path <code>settings\cli\app\update.json</code>.</p>
+<p>Using <strong>action namespaces</strong> is recommended in order to avoid collisions with standard composer actions, such as <em>update</em> and <em>install</em>.</p>
+<h4 id="the-composer-event-object">The Composer event object</h4>
+<p>When a CLI Actions method is called as a result of a Composer <strong>event</strong>, a <code>Composer\Script\Event</code> object is provided as argument to the <strong>script callbacks</strong> defined in the <code>composer.json</code> file.</p>
+<p>In some situations, the event object is needed by the <strong>action callbacks</strong>, so it is passed to them as an environment property named <code>event</code>. The <strong>event</strong> object can be used to obtain the Composer app object as well as information about the project.</p>
+<pre><code class="language-php">public function someActionCallback(array $options, array $env)
+{
+    // Note: 'event' exits only for Composer-triggered actions
+    $event = $env['event'];
+
+    // Get the Composer app object
+    $composer = $event-&gt;getComposer();
+
+    // Get the path to the project's vendor folder
+    $vendorDir = $composer-&gt;getConfig()-&gt;get('vendor-dir');
+
+    // Get the &quot;extra&quot; property of the composer.json
+    $extra = $composer-&gt;getPackage()-&gt;getExtra();
+
+    // Get the package being installed or updated
+    $installedPackage = $event-&gt;getOperation()-&gt;getPackage();
+
+    // Output a message to the console
+    $event-&gt;getIO()-&gt;write(&quot;Some message&quot;);
+}
+</code></pre>
+<h4 id="pre-stored-extra-arguments">Pre-stored extra arguments</h4>
+<p>The schema of a <code>composer.json</code> file allows for a special <a href="https://getcomposer.org/doc/04-schema.md#extra">extra</a> property.</p>
+<pre><code>extra: Arbitrary extra data for consumption by scripts.
+</code></pre>
+<p><strong>CLI Actions</strong> automatically sets \$env['extra'] to the <code>extra</code> property of <code>composer.json</code>.</p>
+<p>The <code>extra</code> property in <code>composer.json</code> can be used to set default values for arguments or to provide additional arguments that are constant for a given project.</p>
+<h4 id="action-methods">Action methods</h4>
+<p>In addition to action definitions provided via JSON files, it is possible to defined custom methods directly by extending the CLIActions class. The method can be declared by name in <code>composer.json</code>. For example, assuming that PublisherCLI extends CLIActions, a <code>methodName</code> can be given as an action callback by:</p>
+<pre><code class="language-json">&quot;scripts&quot;: {
+     &quot;ACTION-NAME-1&quot;: &quot;XYZ\\PublisherCLI::methodName&quot;
+ }
+</code></pre>
+<p>The existence of the public method <code>methodName</code> is checked first and, only if it doesn't exist, a JSON action file is evaluated.</p>
+<h3 id="standard-composer-events">Standard Composer Events</h3>
+<p>Composer dispatches several <a href="https://getcomposer.org/doc/articles/scripts.md#event-names">named events</a> during its execution process. All callbacks for all those events can be defined in by JSON action files named as the event the represent.</p>
+<p>For example, to defined an action for the <strong>post-create-project-cmd</strong>, which occurs after the <code>create-project</code> command has been executed, simple create a JSON file named <code>post-create-project-cmd.json</code> and set the script callback for the event in the <code>composer.json</code> file.</p>
+<p>In <code>composer.json</code></p>
+<pre><code class="language-json">&quot;post-create-project-cmd&quot;: &quot;Proximify\\CLIActions::auto&quot;
+</code></pre>
+<p>In <code>settings/cli/post-create-project-cmd.json</code></p>
+<pre><code class="language-json">{
+    &quot;class&quot;: &quot;XYZ\\MyClass&quot;,
+    &quot;method&quot;: &quot;methodName&quot;
+}
+</code></pre>
+<h2 id="example-projects">Example projects</h2>
+<p>Projects using <strong>CLI Actions</strong>.</p>
+<ul>
+<li><a href="https://packagist.org/packages/proximify/uniweb-api">Uniweb API</a>: default behavior (without custom a CLI class).</li>
+<li><a href="https://packagist.org/packages/proximify/foreign-packages">Foreign Packages</a>: definition of actions for standard composer events.</li>
+<li><a href="https://packagist.org/packages/proximify/glot-builder">GLOT Builder</a>: defines a CLI class.</li>
+<li><a href="https://packagist.org/packages/proximify/glot-publisher">GLOT Publisher</a>: defines two-levels of custom CLI classes.</li>
+</ul>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="assets/javascripts/vendor.7e0ee788.min.js"></script>
+      <script src="assets/javascripts/bundle.b3a72adc.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: ".",
+          features: [],
+          search: Object.assign({
+            worker: "assets/javascripts/worker/search.4ac00218.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>
